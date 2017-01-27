@@ -53,3 +53,39 @@ conditions.
     SDC = 0.1
     cannot_be_together: {20, 40}, {70, 80}
     must-have: 20 or 40 or 50
+
+### Algorithm
+
+    MS, SDC = Read parameter-file.txt
+    T = Read input-data.txt
+    F = DS();
+    Call MS-Apriori(T, MS, SDC)
+        - M = Sort(I, MS)
+        - L = Init-Pass(T, M)
+        - F1 = CheckSupValue(L)
+        - F.Add(F1)
+        - k = 2
+        - n = T.Count
+        While Fk.Count > 1
+            If k = 2
+                Ck = Level2-Candidate-Gen(L, SDC)
+            Else
+                Ck = MS-Candidate-Gen(Fk-1, SDC)
+            End If
+
+            For Each t in T
+                For each c in Ck
+                    If Subset(t, c)
+                        c.Count++
+                    End If
+
+                    If Subset(t, c - c[1])
+                        c.TailCount++
+                    End If
+                End For
+            End For
+            Fk = CheckSupValue(Ck)
+            F.Add(Fk)
+        End While
+    End MS-Apriori
+    Print F
