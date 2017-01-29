@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CS583-Project1</name>
+	<name>cs583_project_1_java</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/input-data.txt</name>
-			<type>1</type>
-			<location>D:/coursework/Data mining/input-data.txt</location>
-		</link>
-	</linkedResources>
 </projectDescription>
