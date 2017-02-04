@@ -13,14 +13,28 @@ public class FrequentItemSet {
 	
 	long tailCount;
 	
+	float MIS;
+	
+	public FrequentItemSet() {
+		itemSet = new HashSet<Long>();
+		actualCount = 0;
+		tailCount = 0;
+		MIS = 0;
+	}
+	
 	public FrequentItemSet(String items) {
 		itemSet = new HashSet<Long>();
 		actualCount = 0;
 		tailCount = 0;
+		MIS = 0;
 		
 		StringTokenizer st = new StringTokenizer(items, ",");
 		while(st.hasMoreTokens())
 		   itemSet.add(Long.valueOf(st.nextToken()));		
+	}
+	
+	public void setItemSet(Set<Long> itemSet) {
+		this.itemSet = itemSet;
 	}
 	
 	public Set<Long> getItemSet() {
@@ -47,6 +61,14 @@ public class FrequentItemSet {
 	
 	public long getTailCount() {
 		return tailCount;
+	}
+	
+	public void setMIS(float MIS) {
+		this.MIS = MIS;
+	}
+	
+	public float getMIS() {
+		return MIS;
 	}
 	
 	public float getSupport(long transactionCount) {

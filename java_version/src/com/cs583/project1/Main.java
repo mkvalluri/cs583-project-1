@@ -6,10 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -17,9 +16,9 @@ public class Main {
 	static String sourceFolder = "";
 	static Charset charset = Charset.forName("ISO-8859-1");
 	static float SDC = 0;
-	static Map<Long, Float> MS = new HashMap<Long, Float>();
+	static LinkedHashMap<Long, Float> MS = new LinkedHashMap<Long, Float>();
 	static List<Set<Long>> T = new ArrayList<Set<Long>>();
-	static Map<String, List<FrequentItemSet>> F = new HashMap<String, List<FrequentItemSet>>();
+	static LinkedHashMap<String, List<FrequentItemSet>> F = new LinkedHashMap<String, List<FrequentItemSet>>();
 
 	public static void main(String[] args) {
 		//System.out.println(args[0]);
