@@ -9,13 +9,13 @@ public class FrequentItemSet {
 	
 	Set<Long> itemSet;
 	
-	long count;
+	long actualCount;
 	
 	long tailCount;
 	
 	public FrequentItemSet(String items) {
 		itemSet = new HashSet<Long>();
-		count = 0;
+		actualCount = 0;
 		tailCount = 0;
 		
 		StringTokenizer st = new StringTokenizer(items, ",");
@@ -34,11 +34,11 @@ public class FrequentItemSet {
 	}
 	
 	public void setCount(long count) {
-		this.count = count;
+		this.actualCount = count;
 	}
 	
 	public long getCount() {
-		return count;
+		return actualCount;
 	}
 	
 	public void setTailCount(long tailCount) {
@@ -50,6 +50,6 @@ public class FrequentItemSet {
 	}
 	
 	public float getSupport(long transactionCount) {
-		return count / transactionCount;
+		return actualCount / transactionCount;
 	}
 }

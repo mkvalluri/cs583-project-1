@@ -2,6 +2,7 @@ package com.cs583.project1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,13 @@ public class Algorithm {
 	public Map<String, List<FrequentItemSet>> MS_Apriori(List<Set<Long>> T, Map<Long, Float> MS, float SDC) {
 		tCount = T.size();
 		Map<String, List<FrequentItemSet>> F = new HashMap<String, List<FrequentItemSet>>();
-		Map<Long, Float> M = sortByValue(MS);
-		List<Set<Long>> L = InitPass(T, M);
-		List<FrequentItemSet> F1 = CheckSupValue(L);
+		
+		Map<Long, Float> M = InitSort(MS);
+		System.out.println("M: " + M);
+		
+		List<Set<Long>> L = InitPass(M, T);
+		
+		/*List<FrequentItemSet> F1 = CheckSupValue(L);
 		F.put("1-list", F1);
 		System.out.println(M);
 		
@@ -47,12 +52,15 @@ public class Algorithm {
 			
 			Fk = CheckSupValueByFrequentItemSet(cK);
 			F.put((k+1) + "-list", Fk);
-		}
+		}*/
 		
 		return F;		
 	}
 	
-	private List<Set<Long>> InitPass(List<Set<Long>> T, Map<Long, Float> M) {
+	private List<Set<Long>> InitPass(Map<Long, Float> MS, List<Set<Long>> T) {
+		List<Set<Long>> returnData = new ArrayList<Set<Long>>();
+		
+		
 		
 		return null;
 	}
@@ -78,10 +86,10 @@ public class Algorithm {
 		return null;
 	}
 	
-	private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+	private  <K, V extends Comparable<? super V>> Map<K, V> InitSort(Map<K, V> map) {
 	    return map.entrySet()
 	              .stream()
-	              .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
+	              .sorted(Map.Entry.comparingByValue())
 	              .collect(Collectors.toMap(
 	                Map.Entry::getKey, 
 	                Map.Entry::getValue, 
