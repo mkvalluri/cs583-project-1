@@ -72,6 +72,6 @@ public class FrequentItemSet {
 	}
 	
 	public float getSupport(long transactionCount) {
-		return actualCount / transactionCount;
+		return ((float)actualCount) / transactionCount;
 	}
 }

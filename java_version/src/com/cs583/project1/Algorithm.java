@@ -20,23 +20,21 @@ public class Algorithm {
 		
 		List<FrequentItemSet> L = InitPass(M, T);
 		
-		List<FrequentItemSet> F1 = CheckSupValue(L);
-		F.put("1-list", F1);
-		System.out.println(M);
+		List<FrequentItemSet> F1 = new ArrayList<FrequentItemSet>(CheckSupValue(L));
+		F.put("1-list", F1);		
+		int k = 2;
 		
-		int k = 1;
-		
-		while (F.get(k - 1).size() > 0) {
+		while (F.get((k - 1) + "-list").size() > 0) {
 			List<FrequentItemSet> cK = new ArrayList<FrequentItemSet>();
 			List<FrequentItemSet> Fk;
 			
-			if (k == 1) {
+			if (k == 2) {
 				cK = Level2_Candidate_Gen(L, SDC);
 			} else {
 				cK = MS_Candidate_Gen(F.get(k - 1), SDC);
 			}
 			
-			for(Set<Long> t : T) {
+			/*for(Set<Long> t : T) {
 				for(FrequentItemSet c : cK) {
 					if(t.containsAll(c.getItemSet())) {
 						c.actualCount += 1;
@@ -49,7 +47,7 @@ public class Algorithm {
 			}
 			
 			Fk = CheckSupValue(cK);
-			F.put((k+1) + "-list", Fk);
+			F.put((k+1) + "-list", Fk);*/
 		}
 		
 		return F;		
@@ -110,6 +108,7 @@ public class Algorithm {
 				}
 			}
 		}
+		printItemSet("L2", returnData);
 		
 		return returnData;
 	}
