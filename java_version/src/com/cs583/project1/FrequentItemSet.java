@@ -9,9 +9,9 @@ public class FrequentItemSet {
 	
 	Set<Long> itemSet;
 	
-	long actualCount;
+	float actualCount;
 	
-	long tailCount;
+	float tailCount;
 	
 	float MIS;
 	
@@ -47,19 +47,19 @@ public class FrequentItemSet {
 				   .collect(Collectors.toSet());
 	}
 	
-	public void setCount(long count) {
+	public void setCount(float count) {
 		this.actualCount = count;
 	}
 	
-	public long getCount() {
+	public float getCount() {
 		return actualCount;
 	}
 	
-	public void setTailCount(long tailCount) {
+	public void setTailCount(float tailCount) {
 		this.tailCount = tailCount;
 	}
 	
-	public long getTailCount() {
+	public float getTailCount() {
 		return tailCount;
 	}
 	
@@ -71,7 +71,7 @@ public class FrequentItemSet {
 		return MIS;
 	}
 	
-	public float getSupport(long transactionCount) {
-		return ((float)actualCount) / transactionCount;
+	public float getSupport(float transactionCount) {
+		return actualCount / transactionCount;
 	}
 }

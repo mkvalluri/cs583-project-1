@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class Algorithm {
 	
-	private long tCount = 0;
+	private float tCount = 0;
 	
 	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<Set<Long>> T, Map<Long, Float> MS, float SDC) {
 		tCount = T.size();
@@ -21,6 +21,7 @@ public class Algorithm {
 		List<FrequentItemSet> L = InitPass(M, T);
 		
 		List<FrequentItemSet> F1 = new ArrayList<FrequentItemSet>(CheckSupValue(L));
+		printItemSet("F1", F1);
 		F.put("1-list", F1);		
 		int k = 2;
 		
@@ -29,25 +30,31 @@ public class Algorithm {
 			List<FrequentItemSet> Fk;
 			
 			if (k == 2) {
-				cK = Level2_Candidate_Gen(L, SDC);
+				cK = Level2_Candidate_Gen(F1, SDC);
 			} else {
 				cK = MS_Candidate_Gen(F.get(k - 1), SDC);
 			}
 			
-			/*for(Set<Long> t : T) {
-				for(FrequentItemSet c : cK) {
-					if(t.containsAll(c.getItemSet())) {
-						c.actualCount += 1;
-					}
-					
-					if(t.containsAll(c.getTailItemSet())) {
-						c.tailCount += 1;
+			if(cK.size() > 0) {				
+				for(Set<Long> t : T) {
+					for(FrequentItemSet c : cK) {
+						if(t.containsAll(c.getItemSet())) {
+							c.actualCount += 1;
+						}
+						
+						if(t.containsAll(c.getTailItemSet())) {
+							c.tailCount += 1;
+						}
 					}
 				}
+				Fk = CheckSupValue(cK);
+				printItemSet("F" + k, Fk);
+				F.put((k) + "-list", Fk);
+				k++;				
 			}
-			
-			Fk = CheckSupValue(cK);
-			F.put((k+1) + "-list", Fk);*/
+			else {
+				break;
+			}
 		}
 		
 		return F;		
@@ -67,7 +74,7 @@ public class Algorithm {
 					keyCount++;					
 				}
 			}
-			actualMIS = ((float)keyCount)/tCount;
+			actualMIS = keyCount / tCount;
 			if(actualMIS >= baseMIS ){
 				FrequentItemSet f = new FrequentItemSet(key.toString());
 				f.setCount(keyCount);
@@ -75,7 +82,7 @@ public class Algorithm {
 				returnData.add(f);
 			}		
 		}	
-		printItemSet("L",returnData);
+		printItemSet("L", returnData);
 		return returnData;
 	}
 	
@@ -87,7 +94,6 @@ public class Algorithm {
 				returnData.add(item);				
 			}
 		}
-		printItemSet("F1", returnData);
 		return returnData;
 	}
 	
@@ -100,7 +106,7 @@ public class Algorithm {
 			if (l.actualCount / tCount >= l.getMIS()) {
 				for (int j = i + 1; j < c; j++) {
 					FrequentItemSet h = L.get(j);
-					if ((h.actualCount / tCount >= l.getMIS()) && (h.getSupport(tCount) - l.getSupport(tCount) <= SDC)) {
+					if ((h.actualCount / tCount >= l.getMIS()) && (Math.abs(h.getSupport(tCount) - l.getSupport(tCount)) <= SDC)) {
 						FrequentItemSet C2 = new FrequentItemSet(l.getItemSet().iterator().next().toString() + "," + h.getItemSet().iterator().next().toString());
 						C2.setMIS(l.getMIS());
 						returnData.add(C2);
@@ -114,8 +120,9 @@ public class Algorithm {
 	}
 	
 	private List<FrequentItemSet> MS_Candidate_Gen(List<FrequentItemSet> Fk, float SDC) {
+		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		
-		return null;
+		return returnData;
 	}
 	
 	private  <K, V extends Comparable<? super V>> LinkedHashMap<K, V> InitSort(Map<K, V> map) {
