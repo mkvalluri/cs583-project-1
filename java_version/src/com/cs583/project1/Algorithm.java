@@ -44,9 +44,9 @@ public class Algorithm {
 							c.actualCount += 1;
 						}
 						
-						if(t.containsAll(c.getTailItemSet())) {
+						/*if(t.containsAll(c.getTailItemSet())) {
 							c.tailCount += 1;
-						}
+						}*/
 					}
 				}
 				Fk = CheckSupValue(cK);

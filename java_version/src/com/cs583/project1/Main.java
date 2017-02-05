@@ -80,6 +80,16 @@ public class Main {
 	}
 
 	public static void WriteOutputData() {
-		System.out.println("F: " + F);
+		System.out.println("##########################################################################\n\n");
+		System.out.println("F: ");
+		for (String s : F.keySet()) {
+			List<FrequentItemSet> tempF = F.get(s);
+			System.out.println("Frequent " + s + "s\n");
+			for (FrequentItemSet f : tempF) {
+				System.out.println((int)f.getCount() + " : " + f.getItemSet());
+			}
+			
+			System.out.println("Total number of frequent " + s + "s = " + tempF.size());
+		}
 	}
 }
