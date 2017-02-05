@@ -18,9 +18,10 @@ public class Main {
 	static LinkedHashMap<Long, Float> MS = new LinkedHashMap<Long, Float>();
 	static List<LinkedHashSet<Long>> T = new ArrayList<LinkedHashSet<Long>>();
 	static LinkedHashMap<String, List<FrequentItemSet>> F = new LinkedHashMap<String, List<FrequentItemSet>>();
+	static List<Long> MustHave = new ArrayList<Long>();
+	static List<LinkedHashSet<Long>> NotBeTogether = new ArrayList<LinkedHashSet<Long>>();
 
 	public static void main(String[] args) {
-		//System.out.println(args[0]);
 		Algorithm a = new Algorithm();
 		
 		sourceFolder = "C:\\input-data";
@@ -29,8 +30,8 @@ public class Main {
 
 		ReadInputData();
 		ReadConfigurationData();
-		F = a.MS_Apriori(T, MS, SDC);
-		WriteOutputData();
+		F = a.MS_Apriori(T, MS, SDC, NotBeTogether);
+		WriteOutputDataToFile();
 	}
 
 	public static void ReadInputData() {
@@ -70,10 +71,32 @@ public class Main {
 					data = line.split("=");
 					SDC = Float.parseFloat(data[1]);
 				}				
+				else if(line.startsWith("must-have")) {
+					data = line.split(":");
+					String[] tempData = data[1].replaceAll("or", ",").split(",");
+					for(String s : tempData) {
+						MustHave.add(Long.parseLong(s));
+					}
+				}
+				else if(line.startsWith("cannot_be_together")) {
+					data = line.split(":");
+					String[] tempData = data[1].replaceAll("},", "}-").split("-");
+					for(String s : tempData) {
+						String[] t1 = s.split("\\{|\\}");
+						String[] t2 = t1[1].split(",");
+						LinkedHashSet<Long> n = new LinkedHashSet<Long>();
+						for(String t : t2) {
+							n.add(Long.parseLong(t));
+						}
+						NotBeTogether.add(n);
+					}
+				}
 			}
 			
 			System.out.println("MS: " + MS);
 			System.out.println("SDC: " + SDC);
+			System.out.println("MustHave: " + MustHave);
+			System.out.println("NotBeTogether: " + NotBeTogether);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -81,15 +104,45 @@ public class Main {
 
 	public static void WriteOutputData() {
 		System.out.println("##########################################################################\n\n");
-		System.out.println("F: ");
+		Boolean flag = true;
 		for (String s : F.keySet()) {
 			List<FrequentItemSet> tempF = F.get(s);
-			System.out.println("Frequent " + s + "s\n");
+			System.out.println("Frequent " + s + "\n");
 			for (FrequentItemSet f : tempF) {
-				System.out.println((int)f.getCount() + " : " + f.getItemSet());
+				System.out.println("\t" + (int)f.getCount() + " : " + f.getItemSet());
+				if(!flag)
+					System.out.println("Tailcount = " + (int)f.getTailCount());
 			}
+			if(flag) 
+				flag = false;
 			
-			System.out.println("Total number of frequent " + s + "s = " + tempF.size());
+			System.out.println("\nTotal number of frequent " + s + " = " + tempF.size() + "\n\n");
 		}
+	}
+	
+	public static void WriteOutputDataToFile() {
+		Boolean flag = true;
+		String outputData = "";
+		for (String s : F.keySet()) {
+			List<FrequentItemSet> tempF = F.get(s);
+			outputData += "Frequent " + s + "\n\n";
+			for (FrequentItemSet f : tempF) {
+				outputData += "\t" + (int)f.getCount() + " : " + f.getItemSet() + "\n";
+				if(!flag)
+					outputData += "Tailcount = " + (int)f.getTailCount() + "\n";
+			}
+			if(flag) 
+				flag = false;
+			
+			outputData += "\n\tTotal number of frequent " + s + " = " + tempF.size() + "\n\n\n";
+		}
+		try {
+			Path data_path = Paths.get(sourceFolder, "output-patterns.txt");
+			Files.write(data_path, outputData.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(outputData);
 	}
 }

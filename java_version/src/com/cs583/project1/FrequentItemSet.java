@@ -1,6 +1,7 @@
 package com.cs583.project1;
 
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 import java.util.LinkedHashSet;
 
 public class FrequentItemSet {
@@ -40,10 +41,10 @@ public class FrequentItemSet {
 	}
 	
 	public LinkedHashSet<Long> getTailItemSet() {
-		/*return itemSet.stream()
-				   .skip(1)
-				   .*/
-		return null;
+		LinkedHashSet<Long> l = new LinkedHashSet<>(itemSet);		
+		if (!l.isEmpty())
+			  l.remove(l.iterator().next());
+		return l;
 	}
 	
 	public void setCount(float count) {
@@ -72,5 +73,17 @@ public class FrequentItemSet {
 	
 	public float getSupport(float transactionCount) {
 		return actualCount / transactionCount;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+		    return true;
+		}	
+		if (!(obj instanceof FrequentItemSet)) {
+		    return false;
+		}	
+		FrequentItemSet other = (FrequentItemSet) obj;
+		return itemSet.equals(other.getItemSet());
 	}
 }
