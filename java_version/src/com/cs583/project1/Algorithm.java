@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 public class Algorithm {
 	
 	private float tCount = 0;
+	LinkedHashMap<Long, Float> M = new LinkedHashMap<Long,Float>();
+	LinkedHashMap<Long, Float> Sup = new LinkedHashMap<Long,Float>();
 	
-	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<TreeSet<Long>> T, Map<Long, Float> MS, float SDC) {
+	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<LinkedHashSet<Long>> T, Map<Long, Float> MS, float SDC) {
 		tCount = T.size();
 		LinkedHashMap<String, List<FrequentItemSet>> F = new LinkedHashMap<String, List<FrequentItemSet>>();
 		
-		LinkedHashMap<Long, Float> M = InitSort(MS);
+		M = InitSort(MS);
 		System.out.println("M: " + M);
 		
 		List<FrequentItemSet> L = InitPass(M, T);
@@ -36,15 +38,15 @@ public class Algorithm {
 			}
 			
 			if(cK.size() > 0) {				
-				for(TreeSet<Long> t : T) {
+				for(LinkedHashSet<Long> t : T) {
 					for(FrequentItemSet c : cK) {
 						if(t.containsAll(c.getItemSet())) {
 							c.actualCount += 1;
 						}
 						
-						if(t.containsAll(c.getTailItemSet())) {
+						/*if(t.containsAll(c.getTailItemSet())) {
 							c.tailCount += 1;
-						}
+						}*/
 					}
 				}
 				Fk = CheckSupValue(cK);
@@ -60,7 +62,7 @@ public class Algorithm {
 		return F;		
 	}
 	
-	private List<FrequentItemSet> InitPass(LinkedHashMap<Long, Float> M, List<TreeSet<Long>> T) {
+	private List<FrequentItemSet> InitPass(LinkedHashMap<Long, Float> M, List<LinkedHashSet<Long>> T) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		float actualMIS = 0; 
 		float baseMIS = 0;
@@ -79,6 +81,7 @@ public class Algorithm {
 				FrequentItemSet f = new FrequentItemSet(key.toString());
 				f.setCount(keyCount);
 				f.setMIS(M.get(key));
+				Sup.put(key, actualMIS);
 				returnData.add(f);
 			}		
 		}	
@@ -123,8 +126,38 @@ public class Algorithm {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		int n = Fk.size();
 		for(int i=0; i<n; i++){
-		}		
-		
+			LinkedHashSet<Long> f1 = new LinkedHashSet<>(Fk.get(i).getItemSet());
+			int subSetSize = f1.size();
+			Long lastItemf1 = Fk.get(i).getItemSet().stream().skip(subSetSize-1).findFirst().get();	
+			//System.out.println("f1:"+f1);
+			f1.remove(lastItemf1);
+			for(int j = i + 1; j < n; j++) {
+				Long lastItemf2 = Fk.get(j).getItemSet().stream().skip(subSetSize-1).findFirst().get();
+				LinkedHashSet<Long> f2 = new LinkedHashSet<>(Fk.get(j).getItemSet());
+				
+				//System.out.println("f2:"+f2);
+				f2.remove(lastItemf2);
+				if(f1.equals(f2) && Math.abs(Sup.get(lastItemf1) - Sup.get(lastItemf2))<=SDC){
+						LinkedHashSet<Long> c = new LinkedHashSet<Long>(Fk.get(i).getItemSet());
+						c.add(lastItemf2);					
+						boolean addToCk = true;
+						List<LinkedHashSet<Long>> tempSubSets = SetOperations.getSubsets(new ArrayList<>(c),subSetSize);
+						for(LinkedHashSet<Long> s:tempSubSets){
+							Long c1 = c.iterator().next();
+							Long c2 = c.stream().skip(1).findFirst().get();
+							if(s.contains(c1)||(M.get(c1).equals(M.get(c2)))){
+								if(!Fk.contains(s)){
+									addToCk = false;
+								}
+							}
+						}
+						FrequentItemSet f = new FrequentItemSet();
+						f.setItemSet(c);
+						returnData.add(f);
+						
+				}
+			}
+		}
 		return returnData;
 	}
 	

@@ -11,14 +11,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
 
 public class Main {
 	static String sourceFolder = "";
 	static Charset charset = Charset.forName("ISO-8859-1");
 	static float SDC = 0;
 	static LinkedHashMap<Long, Float> MS = new LinkedHashMap<Long, Float>();
-	static List<TreeSet<Long>> T = new ArrayList<TreeSet<Long>>();
+	static List<LinkedHashSet<Long>> T = new ArrayList<LinkedHashSet<Long>>();
 	static LinkedHashMap<String, List<FrequentItemSet>> F = new LinkedHashMap<String, List<FrequentItemSet>>();
 
 	public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Main {
 				line = line.replaceAll("\\s+", "");
 				StringTokenizer st = new StringTokenizer(line, "{}");				
 				StringTokenizer stN = new StringTokenizer(st.nextToken(), ",");
-				TreeSet<Long> tempSet = new TreeSet<Long>();
+				LinkedHashSet<Long> tempSet = new LinkedHashSet<Long>();
 				while(stN.hasMoreTokens())
 					tempSet.add(Long.valueOf(stN.nextToken()));		
 				T.add(tempSet);

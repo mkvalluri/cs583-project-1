@@ -3,12 +3,12 @@ package com.cs583.project1;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 public class FrequentItemSet {
 	
-	Set<Long> itemSet;
+	LinkedHashSet<Long> itemSet;
 	
 	float actualCount;
 	
@@ -17,14 +17,14 @@ public class FrequentItemSet {
 	float MIS;
 	
 	public FrequentItemSet() {
-		itemSet = new TreeSet<Long>();
+		itemSet = new LinkedHashSet<Long>();
 		actualCount = 0;
 		tailCount = 0;
 		MIS = 0;
 	}
 	
 	public FrequentItemSet(String items) {
-		itemSet = new HashSet<Long>();
+		itemSet = new LinkedHashSet<Long>();
 		actualCount = 0;
 		tailCount = 0;
 		MIS = 0;
@@ -34,18 +34,19 @@ public class FrequentItemSet {
 		   itemSet.add(Long.valueOf(st.nextToken()));		
 	}
 	
-	public void setItemSet(Set<Long> itemSet) {
+	public void setItemSet(LinkedHashSet<Long> itemSet) {
 		this.itemSet = itemSet;
 	}
 	
-	public Set<Long> getItemSet() {
+	public LinkedHashSet<Long> getItemSet() {
 		return itemSet;
 	}
 	
-	public Set<Long> getTailItemSet() {
-		return itemSet.stream()
+	public LinkedHashSet<Long> getTailItemSet() {
+		/*return itemSet.stream()
 				   .skip(1)
-				   .collect(Collectors.toSet());
+				   .collect(Collectors.);*/
+		return null;
 	}
 	
 	public void setCount(float count) {
