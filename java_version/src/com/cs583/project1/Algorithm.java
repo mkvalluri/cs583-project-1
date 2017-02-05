@@ -70,15 +70,22 @@ public class Algorithm {
 		float baseMIS = 0;
 		for (Long key : M.keySet()) {
 			int keyCount = 0;
-			if (baseMIS == 0) {
-				baseMIS = M.get(key);
-			}
 			for (int i = 0; i < tCount; i++) {
 				if (T.get(i).contains(key)) {
 					keyCount++;
 				}
 			}
 			actualMIS = keyCount / tCount;
+
+			if (baseMIS == 0) {
+				if (actualMIS >= M.get(key)) {			
+					baseMIS = M.get(key);
+				}
+				else {
+					continue;
+				}
+			}
+			
 			if (actualMIS >= baseMIS) {
 				FrequentItemSet f = new FrequentItemSet(key.toString());
 				f.setCount(keyCount);
