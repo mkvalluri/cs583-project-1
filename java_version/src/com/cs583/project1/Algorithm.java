@@ -44,9 +44,9 @@ public class Algorithm {
 							c.actualCount += 1;
 						}
 						
-						/*if(t.containsAll(c.getTailItemSet())) {
+						if(t.containsAll(c.getTailItemSet())) {
 							c.tailCount += 1;
-						}*/
+						}
 					}
 				}
 				Fk = CheckSupValue(cK);
@@ -125,23 +125,24 @@ public class Algorithm {
 	private List<FrequentItemSet> MS_Candidate_Gen(List<FrequentItemSet> Fk, float SDC) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		int n = Fk.size();
-		for(int i=0; i<n; i++){
+		
+		for(int i=0; i<n; i++) {
 			LinkedHashSet<Long> f1 = new LinkedHashSet<>(Fk.get(i).getItemSet());
 			int subSetSize = f1.size();
 			Long lastItemf1 = Fk.get(i).getItemSet().stream().skip(subSetSize-1).findFirst().get();	
-			//System.out.println("f1:"+f1);
 			f1.remove(lastItemf1);
+			
 			for(int j = i + 1; j < n; j++) {
 				Long lastItemf2 = Fk.get(j).getItemSet().stream().skip(subSetSize-1).findFirst().get();
-				LinkedHashSet<Long> f2 = new LinkedHashSet<>(Fk.get(j).getItemSet());
-				
-				//System.out.println("f2:"+f2);
+				LinkedHashSet<Long> f2 = new LinkedHashSet<>(Fk.get(j).getItemSet());				
 				f2.remove(lastItemf2);
+				
 				if(f1.equals(f2) && Math.abs(Sup.get(lastItemf1) - Sup.get(lastItemf2))<=SDC){
 						LinkedHashSet<Long> c = new LinkedHashSet<Long>(Fk.get(i).getItemSet());
 						c.add(lastItemf2);					
 						boolean addToCk = true;
 						List<LinkedHashSet<Long>> tempSubSets = SetOperations.getSubsets(new ArrayList<>(c),subSetSize);
+						
 						for(LinkedHashSet<Long> s:tempSubSets){
 							Long c1 = c.iterator().next();
 							Long c2 = c.stream().skip(1).findFirst().get();
@@ -151,9 +152,12 @@ public class Algorithm {
 								}
 							}
 						}
-						FrequentItemSet f = new FrequentItemSet();
-						f.setItemSet(c);
-						returnData.add(f);
+						
+						if(addToCk) {
+							FrequentItemSet f = new FrequentItemSet();
+							f.setItemSet(c);
+							returnData.add(f);							
+						}
 						
 				}
 			}
@@ -172,10 +176,6 @@ public class Algorithm {
 	                LinkedHashMap::new
 	              ));
 	}
-	
-	/*private <T> boolean isSubset(Set<T> setA, Set<T> setB) {
-	    return setB.containsAll(setA);
-	}*/
 	
 	private void printItemSet(String name, List<FrequentItemSet> itemSet){
 		System.out.println(name+":");

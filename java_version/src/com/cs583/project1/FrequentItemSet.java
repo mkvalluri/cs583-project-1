@@ -1,10 +1,7 @@
 package com.cs583.project1;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
 
 public class FrequentItemSet {
 	
@@ -45,7 +42,7 @@ public class FrequentItemSet {
 	public LinkedHashSet<Long> getTailItemSet() {
 		/*return itemSet.stream()
 				   .skip(1)
-				   .collect(Collectors.);*/
+				   .*/
 		return null;
 	}
 	
