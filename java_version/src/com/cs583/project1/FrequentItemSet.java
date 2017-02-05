@@ -3,6 +3,7 @@ package com.cs583.project1;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class FrequentItemSet {
@@ -16,7 +17,7 @@ public class FrequentItemSet {
 	float MIS;
 	
 	public FrequentItemSet() {
-		itemSet = new HashSet<Long>();
+		itemSet = new TreeSet<Long>();
 		actualCount = 0;
 		tailCount = 0;
 		MIS = 0;

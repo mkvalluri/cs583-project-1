@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Algorithm {
 	
 	private float tCount = 0;
 	
-	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<Set<Long>> T, Map<Long, Float> MS, float SDC) {
+	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<TreeSet<Long>> T, Map<Long, Float> MS, float SDC) {
 		tCount = T.size();
 		LinkedHashMap<String, List<FrequentItemSet>> F = new LinkedHashMap<String, List<FrequentItemSet>>();
 		
@@ -32,11 +32,11 @@ public class Algorithm {
 			if (k == 2) {
 				cK = Level2_Candidate_Gen(F1, SDC);
 			} else {
-				cK = MS_Candidate_Gen(F.get(k - 1), SDC);
+				cK = MS_Candidate_Gen(F.get((k - 1) + "-list"), SDC);
 			}
 			
 			if(cK.size() > 0) {				
-				for(Set<Long> t : T) {
+				for(TreeSet<Long> t : T) {
 					for(FrequentItemSet c : cK) {
 						if(t.containsAll(c.getItemSet())) {
 							c.actualCount += 1;
@@ -60,7 +60,7 @@ public class Algorithm {
 		return F;		
 	}
 	
-	private List<FrequentItemSet> InitPass(LinkedHashMap<Long, Float> M, List<Set<Long>> T) {
+	private List<FrequentItemSet> InitPass(LinkedHashMap<Long, Float> M, List<TreeSet<Long>> T) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		float actualMIS = 0; 
 		float baseMIS = 0;
@@ -121,6 +121,9 @@ public class Algorithm {
 	
 	private List<FrequentItemSet> MS_Candidate_Gen(List<FrequentItemSet> Fk, float SDC) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
+		int n = Fk.size();
+		for(int i=0; i<n; i++){
+		}		
 		
 		return returnData;
 	}
