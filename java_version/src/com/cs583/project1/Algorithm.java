@@ -21,12 +21,12 @@ public class Algorithm {
 		NBT = new ArrayList<LinkedHashSet<Long>>(NotBeTogether);
 
 		M = InitSort(MS);
-		System.out.println("M: " + M);
+		//System.out.println("M: " + M);
 
 		List<FrequentItemSet> L = InitPass(M, T);
 
 		List<FrequentItemSet> F1 = new ArrayList<FrequentItemSet>(CheckSupValue(L));
-		printItemSet("F1", F1);
+		//printItemSet("F1", F1);
 		F.put("1-itemsets", F1);
 		int k = 2;
 
@@ -35,7 +35,7 @@ public class Algorithm {
 			List<FrequentItemSet> Fk;
 
 			if (k == 2) {
-				cK = Level2_Candidate_Gen(F1, SDC);
+				cK = Level2_Candidate_Gen(L, SDC);
 			} else {
 				cK = MS_Candidate_Gen(F.get((k - 1) + "-itemsets"), SDC);
 			}
@@ -53,9 +53,14 @@ public class Algorithm {
 					}
 				}
 				Fk = CheckSupValue(cK);
-				printItemSet("F" + k, Fk);
-				F.put((k) + "-itemsets", Fk);
-				k++;
+				if(Fk != null && Fk.size() > 0) {
+					//printItemSet("F" + k, Fk);
+					F.put((k) + "-itemsets", Fk);	
+					k++;
+				}
+				else {
+					break;
+				}
 			} else {
 				break;
 			}
@@ -75,7 +80,7 @@ public class Algorithm {
 					keyCount++;
 				}
 			}
-			actualMIS = keyCount / tCount;
+			actualMIS = (float) keyCount / tCount;
 
 			if (baseMIS == 0) {
 				if (actualMIS >= M.get(key)) {			
@@ -94,14 +99,15 @@ public class Algorithm {
 				returnData.add(f);
 			}
 		}
-		printItemSet("L", returnData);
+		//printItemSet("L", returnData);
 		return returnData;
 	}
 
-	private List<FrequentItemSet> CheckSupValue(List<FrequentItemSet> L) {
+	private List<FrequentItemSet> CheckSupValue(List<FrequentItemSet> Items) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 
-		for (FrequentItemSet item : L) {
+		for (FrequentItemSet item : Items) {
+			//System.out.println("Item: " + item.getItemSet() + "\t Support: " + item.getSupport(tCount) + "\t MIS: " + item.getMIS());
 			if (item.getMIS() <= item.getSupport(tCount)) {
 				returnData.add(item);
 			}
@@ -114,10 +120,10 @@ public class Algorithm {
 		long c = L.size();
 		for (int i = 0; i < c; i++) {
 			FrequentItemSet l = L.get(i);
-			if (l.actualCount / tCount >= l.getMIS()) {
+			if (l.getSupport(tCount) >= l.getMIS()) {
 				for (int j = i + 1; j < c; j++) {
 					FrequentItemSet h = L.get(j);
-					if ((h.actualCount / tCount >= l.getMIS())
+					if ((h.getSupport(tCount) >= l.getMIS())
 							&& (Math.abs(h.getSupport(tCount) - l.getSupport(tCount)) <= SDC)) {
 						FrequentItemSet C2 = new FrequentItemSet(l.getItemSet().iterator().next().toString() + ","
 								+ h.getItemSet().iterator().next().toString());
@@ -130,7 +136,7 @@ public class Algorithm {
 				}
 			}
 		}
-		printItemSet("L2", returnData);
+		//printItemSet("L2", returnData);
 
 		return returnData;
 	}
@@ -163,7 +169,7 @@ public class Algorithm {
 						tempfItemSet.setItemSet(s);
 
 						if (s.contains(c1) || (M.get(c1).equals(M.get(c2)))) {
-							if (!Fk.contains(s)) {
+							if (Fk.contains(s)) {
 								addToCk = false;
 							}
 						}
@@ -176,13 +182,14 @@ public class Algorithm {
 					if (addToCk) {
 						FrequentItemSet f = new FrequentItemSet();
 						f.setItemSet(c);
+						f.setMIS(M.get(c.iterator().next()));
 						returnData.add(f);
 					}
 
 				}
 			}
 		}
-
+		//printItemSet("C", returnData);
 		return returnData;
 	}
 

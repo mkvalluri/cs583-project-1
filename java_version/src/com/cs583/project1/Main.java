@@ -112,15 +112,29 @@ public class Main {
 		for (String s : F.keySet()) {
 			List<FrequentItemSet> tempF = F.get(s);
 			System.out.println("Frequent " + s + "\n");
+			int mustHaveCount = 0;
 			for (FrequentItemSet f : tempF) {
-				System.out.println("\t" + (int)f.getCount() + " : " + f.getItemSet());
-				if(!flag)
-					System.out.println("Tailcount = " + (int)f.getTailCount());
+				Boolean mustHaveFlag = false;
+				for(long m: MustHave) {
+					if(f.getItemSet().contains(m)) {
+						mustHaveFlag = true;
+						break;
+					}
+				}
+				if(mustHaveFlag)
+				{
+					System.out.println("\t" + (int)f.getCount() + " : " + f.getItemSet());
+					if(!flag)
+						System.out.println("Tailcount = " + (int)f.getTailCount());
+				}
+				else {
+					mustHaveCount++;
+				}
 			}
 			if(flag) 
 				flag = false;
 			
-			System.out.println("\nTotal number of frequent " + s + " = " + tempF.size() + "\n\n");
+			System.out.println("\nTotal number of frequent " + s + " = " + (tempF.size() - mustHaveCount) + "\n\n");
 		}
 	}
 	
@@ -130,15 +144,29 @@ public class Main {
 		for (String s : F.keySet()) {
 			List<FrequentItemSet> tempF = F.get(s);
 			outputData += "Frequent " + s + "\n\n";
+			int mustHaveCount = 0;
 			for (FrequentItemSet f : tempF) {
-				outputData += "\t" + (int)f.getCount() + " : " + f.getItemSet() + "\n";
-				if(!flag)
-					outputData += "Tailcount = " + (int)f.getTailCount() + "\n";
+				Boolean mustHaveFlag = false;
+				for(long m: MustHave) {
+					if(f.getItemSet().contains(m)) {
+						mustHaveFlag = true;
+						break;
+					}
+				}
+				if(mustHaveFlag)
+				{
+					outputData += "\t" + (int)f.getCount() + " : " + f.getItemSet() + "\n";
+					if(!flag)
+						outputData += "Tailcount = " + (int)f.getTailCount() + "\n";
+				}
+				else {
+					mustHaveCount++;
+				}
 			}
 			if(flag) 
 				flag = false;
 			
-			outputData += "\n\tTotal number of frequent " + s + " = " + tempF.size() + "\n\n\n";
+			outputData += "\n\tTotal number of frequent " + s + " = " + (tempF.size() - mustHaveCount) + "\n\n\n";
 		}
 		try {
 			Path data_path = Paths.get(sourceFolder, "output-patterns.txt");
@@ -147,6 +175,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("\n\n#############################################################\n");
 		System.out.println(outputData);
 	}
 }
