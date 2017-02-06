@@ -142,12 +142,12 @@ public class Algorithm {
 		for (int i = 0; i < n; i++) {
 			LinkedHashSet<Long> f1 = new LinkedHashSet<>(Fk.get(i).getItemSet());
 			int subSetSize = f1.size();
-			Long lastItemf1 = Fk.get(i).getItemSet().stream().skip(subSetSize - 1).findFirst().get();
+			Long lastItemf1 = f1.stream().skip(subSetSize - 1).findFirst().get();
 			f1.remove(lastItemf1);
 
 			for (int j = i + 1; j < n; j++) {
-				Long lastItemf2 = Fk.get(j).getItemSet().stream().skip(subSetSize - 1).findFirst().get();
 				LinkedHashSet<Long> f2 = new LinkedHashSet<>(Fk.get(j).getItemSet());
+				Long lastItemf2 = f2.stream().skip(subSetSize - 1).findFirst().get();
 				f2.remove(lastItemf2);
 
 				if (f1.equals(f2) && Math.abs(Sup.get(lastItemf1) - Sup.get(lastItemf2)) <= SDC) {
@@ -162,8 +162,8 @@ public class Algorithm {
 						FrequentItemSet tempfItemSet = new FrequentItemSet();
 						tempfItemSet.setItemSet(s);
 
-						if (s.contains(c1)) {
-							if (!Fk.contains(tempfItemSet) || (M.get(c1).equals(M.get(c2)))) {
+						if (s.contains(c1) || (M.get(c1).equals(M.get(c2)))) {
+							if (!Fk.contains(s)) {
 								addToCk = false;
 							}
 						}

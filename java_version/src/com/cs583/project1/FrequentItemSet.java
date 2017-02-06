@@ -1,7 +1,6 @@
 package com.cs583.project1;
 
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 import java.util.LinkedHashSet;
 
 public class FrequentItemSet {

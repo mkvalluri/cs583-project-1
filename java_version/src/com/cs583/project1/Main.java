@@ -89,6 +89,10 @@ public class Main {
 							n.add(Long.parseLong(t));
 						}
 						NotBeTogether.add(n);
+						int size = n.size();
+						for(int i = size - 1; i > 1; i--) {
+							NotBeTogether.addAll(SetOperations.getSubsets(new ArrayList<>(n), i));
+						}
 					}
 				}
 			}
