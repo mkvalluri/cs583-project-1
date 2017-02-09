@@ -1,3 +1,11 @@
+/*******************************
+ * Filename: Algorithm.java
+ * Description: Implementation of MS-Apriori algorithm
+ * with additional conditions.
+ * Authors: Murali Valluri (mvallu2@uic.edu), Spoorthi Pendyala (npendy2@uic.edu)
+ */
+
+
 package com.cs583.project1;
 
 import java.util.ArrayList;
@@ -14,6 +22,7 @@ public class Algorithm {
 	LinkedHashMap<Long, Float> Sup = new LinkedHashMap<Long, Float>();
 	List<LinkedHashSet<Long>> NBT;
 
+	//Entry point of the algorithm.
 	public LinkedHashMap<String, List<FrequentItemSet>> MS_Apriori(List<LinkedHashSet<Long>> T, Map<Long, Float> MS,
 			float SDC, List<LinkedHashSet<Long>> NotBeTogether) {
 		tCount = T.size();
@@ -69,6 +78,8 @@ public class Algorithm {
 		return F;
 	}
 
+	//Initial pass where we generate 1-itemsets. Steps include retrieving count of each
+	//item and then making sure the support is less than min(MIS(i1), MIS(i2)..(MIS(in))
 	private List<FrequentItemSet> InitPass(LinkedHashMap<Long, Float> M, List<LinkedHashSet<Long>> T) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		float actualMIS = 0;
@@ -103,6 +114,8 @@ public class Algorithm {
 		return returnData;
 	}
 
+	//Used to check if the support of the itemset is greater than 
+	//the MIS value of the item set. 
 	private List<FrequentItemSet> CheckSupValue(List<FrequentItemSet> Items) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 
@@ -115,6 +128,9 @@ public class Algorithm {
 		return returnData;
 	}
 
+	//Used to generate 2-itemsets. Additional parameter SDC is used 
+	//to make sure that the support difference between 2 items in an
+	//itemset is less than or equal to SDC.
 	private List<FrequentItemSet> Level2_Candidate_Gen(List<FrequentItemSet> L, float SDC) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		long c = L.size();
@@ -141,6 +157,8 @@ public class Algorithm {
 		return returnData;
 	}
 
+	//Used to generate n-itemsets where n > 2. This function generates
+	//(n+1)-itemsets and then checks for few more conditions.
 	private List<FrequentItemSet> MS_Candidate_Gen(List<FrequentItemSet> Fk, float SDC) {
 		List<FrequentItemSet> returnData = new ArrayList<FrequentItemSet>();
 		int n = Fk.size();
@@ -193,6 +211,8 @@ public class Algorithm {
 		return returnData;
 	}
 
+	//This function checks if the itemset generates have items
+	//which can't be together.
 	private Boolean CheckForNotBeTogether(LinkedHashSet<Long> d) {
 		for (LinkedHashSet<Long> nbt : NBT) {
 			if (d.containsAll(nbt)) {
@@ -202,11 +222,13 @@ public class Algorithm {
 		return false;
 	}
 
+	//This is used to sort items in a map based on value.
 	private <K, V extends Comparable<? super V>> LinkedHashMap<K, V> InitSort(Map<K, V> map) {
 		return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
 
+	//This is used to print itemsets.
 	private void printItemSet(String name, List<FrequentItemSet> itemSet) {
 		System.out.println(name + ":");
 		for (FrequentItemSet item : itemSet) {

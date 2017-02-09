@@ -1,3 +1,10 @@
+/*******************************
+ * Filename: FrequentItemSet.java
+ * Description: Implementation of MS-Apriori algorithm
+ * with additional conditions.
+ * Authors: Murali Valluri (mvallu2@uic.edu), Spoorthi Pendyala (npendy2@uic.edu)
+ */
+
 package com.cs583.project1;
 
 import java.util.StringTokenizer;

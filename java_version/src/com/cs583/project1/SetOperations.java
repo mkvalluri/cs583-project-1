@@ -1,3 +1,10 @@
+/*******************************
+ * Filename: SetOperations.java
+ * Description: Implementation of MS-Apriori algorithm
+ * with additional conditions.
+ * Authors: Murali Valluri (mvallu2@uic.edu), Spoorthi Pendyala (npendy2@uic.edu)
+ */
+
 package com.cs583.project1;
 
 import java.util.ArrayList;
@@ -5,20 +12,20 @@ import java.util.List;
 import java.util.LinkedHashSet;
 
 public class SetOperations {
+	
 	private static void getSubsets(List<Long> superSet, int k, int idx, LinkedHashSet<Long> current,List<LinkedHashSet<Long>> solution) {
-	    //successful stop clause
 	    if (current.size() == k) {
 	        solution.add(new LinkedHashSet<>(current));
 	        return;
 	    }
-	    //unsuccessful stop clause
-	    if (idx == superSet.size()) return;
+	    
+	    if (idx == superSet.size()) 
+	    	return;
+	    
 	    Long x = superSet.get(idx);
 	    current.add(x);
-	    //"guess" x is in the subset
 	    getSubsets(superSet, k, idx+1, current, solution);
 	    current.remove(x);
-	    //"guess" x is not in the subset
 	    getSubsets(superSet, k, idx+1, current, solution);
 	}
 

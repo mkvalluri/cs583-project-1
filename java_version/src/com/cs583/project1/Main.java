@@ -1,3 +1,10 @@
+/*******************************
+ * Filename: Main.java
+ * Description: Implementation of MS-Apriori algorithm
+ * with additional conditions.
+ * Authors: Murali Valluri (mvallu2@uic.edu), Spoorthi Pendyala (npendy2@uic.edu)
+ */
+
 package com.cs583.project1;
 
 import java.io.IOException;
@@ -21,6 +28,10 @@ public class Main {
 	static List<Long> MustHave = new ArrayList<Long>();
 	static List<LinkedHashSet<Long>> NotBeTogether = new ArrayList<LinkedHashSet<Long>>();
 
+	//Entry point of the program. Steps:
+	//Reads input data, configuration data.
+	//Call Algorithm.
+	//Print the result.
 	public static void main(String[] args) {
 		Algorithm a = new Algorithm();
 		
@@ -34,6 +45,7 @@ public class Main {
 		WriteOutputDataToFile();
 	}
 
+	//Reads input data.
 	public static void ReadInputData() {
 		Path data_path = Paths.get(sourceFolder, "input-data.txt");
 		try {
@@ -55,6 +67,7 @@ public class Main {
 		}
 	}
 
+	//Reads configuration files 
 	public static void ReadConfigurationData() {
 		Path config_path = Paths.get(sourceFolder, "parameter-file.txt");
 		try {
@@ -105,39 +118,8 @@ public class Main {
 			System.out.println(e);
 		}
 	}
-
-	public static void WriteOutputData() {
-		System.out.println("##########################################################################\n\n");
-		Boolean flag = true;
-		for (String s : F.keySet()) {
-			List<FrequentItemSet> tempF = F.get(s);
-			System.out.println("Frequent " + s + "\n");
-			int mustHaveCount = 0;
-			for (FrequentItemSet f : tempF) {
-				Boolean mustHaveFlag = false;
-				for(long m: MustHave) {
-					if(f.getItemSet().contains(m)) {
-						mustHaveFlag = true;
-						break;
-					}
-				}
-				if(mustHaveFlag)
-				{
-					System.out.println("\t" + (int)f.getCount() + " : " + f.getItemSet());
-					if(!flag)
-						System.out.println("Tailcount = " + (int)f.getTailCount());
-				}
-				else {
-					mustHaveCount++;
-				}
-			}
-			if(flag) 
-				flag = false;
-			
-			System.out.println("\nTotal number of frequent " + s + " = " + (tempF.size() - mustHaveCount) + "\n\n");
-		}
-	}
 	
+	//Writes the final output to file and also prints the result in console.
 	public static void WriteOutputDataToFile() {
 		Boolean flag = true;
 		String outputData = "";
