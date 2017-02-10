@@ -16,8 +16,8 @@ conditions.
     Output would be displayed on console and is also written into the file (output-patterns.txt) which 
     will be saved under "C:\input-data" folder.
 
-    *NOTE* If you want to specify other directory as source directory, then run the
-    program using "java PATH_TO_SOURCE_FOLDER" command.
+    NOTE: If you want to specify other directory as source directory, then run the
+    program using "java Main PATH_TO_INPUT_DATA_FOLDER" command.
 
 
 ### Input Format
