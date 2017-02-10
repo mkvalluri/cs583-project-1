@@ -148,9 +148,18 @@ public class Main {
 			if(flag) 
 				flag = false;
 			
-			outputData += "\n\tTotal number of frequent " + s + " = " + (tempF.size() - mustHaveCount) + "\n\n\n";
+			if ((tempF.size() - mustHaveCount) > 0)
+				outputData += "\n\tTotal number of frequent " + s + " = " + (tempF.size() - mustHaveCount) + "\n\n\n";
+			else {
+				if(Integer.parseInt(s.split("-")[0]) < 10)
+					outputData = outputData.substring(0, outputData.lastIndexOf('\n') - 23);
+				else 
+					outputData = outputData.substring(0, outputData.lastIndexOf('\n') - 22);
+			}
 		}
 		try {
+			outputData = outputData.replace("[", "{");
+			outputData = outputData.replace("]", "}");
 			Path data_path = Paths.get(sourceFolder, "output-patterns.txt");
 			Files.write(data_path, outputData.getBytes());
 		} catch (IOException e) {
@@ -159,5 +168,6 @@ public class Main {
 		}
 		System.out.println("\n\n#############################################################\n");
 		System.out.println(outputData);
+		System.out.println("\n\n#############################################################\n");
 	}
 }
