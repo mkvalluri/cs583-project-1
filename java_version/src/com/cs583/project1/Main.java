@@ -61,7 +61,7 @@ public class Main {
 				T.add(tempSet);
 			}
 			
-			System.out.println("T: " + T);
+			//System.out.println("T: " + T);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -110,10 +110,10 @@ public class Main {
 				}
 			}
 			
-			System.out.println("MS: " + MS);
-			System.out.println("SDC: " + SDC);
-			System.out.println("MustHave: " + MustHave);
-			System.out.println("NotBeTogether: " + NotBeTogether);
+			//System.out.println("MS: " + MS);
+			//System.out.println("SDC: " + SDC);
+			//System.out.println("MustHave: " + MustHave);
+			//System.out.println("NotBeTogether: " + NotBeTogether);
 		} catch (IOException e) {
 			System.out.println(e);
 		}

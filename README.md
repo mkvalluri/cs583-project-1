@@ -8,6 +8,17 @@ Spoorthi Pendyala (npendy2@uic.edu)
 Implementation of Apriori Algorithm with multiple MIS values and special
 conditions.
 
+### Steps to run the program
+    Create new folder under C:\ named "input-data"
+    Copy the data file (input-data.txt), configuration file (parameter-file.txt)
+    Compile the source files using "javac *.java"
+    Run the program using command "java Main"
+    Output would be displayed on console and is also written into the file (output-patterns.txt) which 
+    will be saved under "C:\input-data" folder.
+
+    *NOTE* If you want to specify other directory as source directory, then run the
+    program using "java PATH_TO_SOURCE_FOLDER" command.
+
 
 ### Input Format
     {20, 30, 80, 70, 50, 90}
